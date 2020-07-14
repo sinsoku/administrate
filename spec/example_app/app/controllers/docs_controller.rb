@@ -1,9 +1,14 @@
 class DocsController < ApplicationController
   SPECIAL_FILES = [
     {
-      file: 'CONTRIBUTING',
-      page: 'contributing'
-    }
+      file: "CONTRIBUTING",
+      page: "contributing",
+    },
+    {
+      file: "README",
+      page: "index",
+      home: true,
+    },
   ].freeze
 
   REDCARPET_CONFIG = {
@@ -44,7 +49,7 @@ class DocsController < ApplicationController
       render layout: "docs", html: contents.body.html_safe
       # rubocop:enable Rails/OutputSafety
     else
-      render file: "#{Rails.root}/public/404.html",
+      render file: Rails.root.join("/public/404.html"),
              layout: false,
              status: :not_found
     end
@@ -63,7 +68,11 @@ class DocsController < ApplicationController
     def initialize(source_text)
       front_matter_parsed = FrontMatterParser::Parser.new(:md).call(source_text)
       @source_text = front_matter_parsed.content
-      @metadata = front_matter_parsed.front_matter
+      @metadata = if front_matter_parsed.front_matter.empty?
+                    { "home" => true }
+                  else
+                    front_matter_parsed.front_matter
+                  end
     end
 
     def body
@@ -87,7 +96,7 @@ class DocsController < ApplicationController
     end
 
     def title_suffix
-      metadata["home"] ? "" : " - Administrate"
+      metadata["home"] ? "Administrate" : " - Administrate"
     end
 
     private
