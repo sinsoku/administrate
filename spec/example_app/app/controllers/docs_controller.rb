@@ -49,7 +49,7 @@ class DocsController < ApplicationController
       render layout: "docs", html: contents.body.html_safe
       # rubocop:enable Rails/OutputSafety
     else
-      render file: Rails.root.join("/public/404.html"),
+      render file: Rails.root.join("public/404.html"),
              layout: false,
              status: :not_found
     end
