@@ -82,6 +82,12 @@ describe "customer index page" do
     click_on "Orders"
     expect(page).to have_content(/Ben.*3 orders.*Ade.*2 orders.*Cam.*1 order/)
   end
+
+  it "does not link for not sortable field" do
+    visit admin_customers_path
+
+    expect(page).to have_no_link("Lifetime Value")
+  end
 end
 
 describe "search input" do

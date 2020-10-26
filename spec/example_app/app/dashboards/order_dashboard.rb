@@ -12,7 +12,11 @@ class OrderDashboard < Administrate::BaseDashboard
     address_zip: Field::String,
     customer: Field::BelongsTo,
     line_items: Field::HasMany,
-    total_price: Field::Number.with_options(prefix: "$", decimals: 2),
+    total_price: Field::Number.with_options(
+      prefix: "$",
+      decimals: 2,
+      sortable: false
+    ),
     shipped_at: Field::DateTime,
     payments: Field::HasMany,
   }

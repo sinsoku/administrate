@@ -29,6 +29,10 @@ module Administrate
         options.fetch(:searchable, deferred_class.searchable?)
       end
 
+      def sortable?
+        options.fetch(:sortable, deferred_class.sortable?)
+      end
+
       def searchable_field
         ActiveSupport::Deprecation.warn(
           "searchable_field is deprecated, use searchable_fields instead",
